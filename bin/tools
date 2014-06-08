@@ -1,0 +1,26 @@
+
+#Library of colorized logging functions, just source this
+function error() {
+  echo -e  '\E[31m'"\033[1m$*\033[0m"
+}
+
+function announce() {
+  echo -e  '\E[34m'"\033[1m$*\033[0m"
+}
+
+function fatal() {
+  echo -e  '\E[31m'"\033[1m$*\033[0m"
+  exit 1
+}
+
+function trace() {
+  echo -e  '\E[35m'"\033[1m$*\033[0m"
+}
+
+function info() {
+  echo -e  '\E[32m'"\033[1m$*\033[0m"
+}
+
+function warn() {
+  echo -e  '\E[33m'"\033[1m$*\033[0m"
+}

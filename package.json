@@ -6,6 +6,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "bin": {
+    "polymer-build": "bin/polymer-build",
+    "polymer-watch": "bin/polymer-watch"
+  },
   "repository": {
     "type": "git",
     "url": "git://github.com/Custom-Elements/polymer-tools.git"
