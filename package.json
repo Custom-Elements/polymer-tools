@@ -8,7 +8,8 @@
   },
   "bin": {
     "polymer-build": "bin/polymer-build",
-    "polymer-watch": "bin/polymer-watch"
+    "polymer-watch": "bin/polymer-watch",
+    "tools": "bin/tools"
   },
   "repository": {
     "type": "git",
