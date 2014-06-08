@@ -18,11 +18,10 @@ Command line wrapper runner for vulcanization.
     livereload = require 'express-livereload'
     require 'colors'
 
-    args.source_directory = fs.realpathSync args['<source_directory>']
-    args.build_directory = fs.realpathSync args['<build_directory>']
-    args.root_directory = fs.realpathSync args['<root_directory>'] or '.'
-
     mkdirp args.build_directory, ->
+      args.source_directory = fs.realpathSync args['<source_directory>']
+      args.build_directory = fs.realpathSync args['<build_directory>']
+      args.root_directory = fs.realpathSync args['<root_directory>'] or '.'
       waterfall = []
 
       recursive args.source_directory, (err, files) ->
