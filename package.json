@@ -1,0 +1,33 @@
+{
+  "name": "polymer-tools",
+  "version": "0.0.0",
+  "description": "Build tools to make polymer element creation easy!",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Custom-Elements/polymer-tools.git"
+  },
+  "keywords": [
+    "polymer",
+    "coffeescript",
+    "less",
+    "vulcanize",
+    "build",
+    "watch",
+    "livereload"
+  ],
+  "author": "Will Ballard <wballard@mailframe.net>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Custom-Elements/polymer-tools/issues"
+  },
+  "homepage": "https://github.com/Custom-Elements/polymer-tools",
+  "dependencies": {
+    "vulcanize": "git://github.com/wballard/vulcanize#master",
+    "vulcanize-less": "git://github.com/wballard/vulcanize-less#master",
+    "vulcanize-browserify": "git://github.com/wballard/vulcanize-browserify#master"
+  }
+}
