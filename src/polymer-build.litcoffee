@@ -18,7 +18,7 @@ Command line wrapper runner for vulcanization.
     livereload = require 'express-livereload'
     require 'colors'
 
-    mkdirp args.build_directory, ->
+    mkdirp args['<build_directory>'], ->
       args.source_directory = fs.realpathSync args['<source_directory>']
       args.build_directory = fs.realpathSync args['<build_directory>']
       args.root_directory = fs.realpathSync args['<root_directory>'] or '.'
