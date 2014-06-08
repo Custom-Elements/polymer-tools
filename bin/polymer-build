@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 for f in ${1}/*.html
 do
-  ./bin/vulcanize --preprocess vulcanize-less --preprocess vulcanize-browserify --inline -o ${2}/$(basename ${f}) ${f}
+  vulcanize --preprocess vulcanize-less --preprocess vulcanize-browserify --inline -o ${2}/$(basename ${f}) ${f}
 done
 
