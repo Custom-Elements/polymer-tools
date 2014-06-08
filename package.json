@@ -28,6 +28,12 @@
   "dependencies": {
     "vulcanize": "git://github.com/wballard/vulcanize#master",
     "vulcanize-less": "git://github.com/wballard/vulcanize-less#master",
-    "vulcanize-browserify": "git://github.com/wballard/vulcanize-browserify#master"
+    "vulcanize-browserify": "git://github.com/wballard/vulcanize-browserify#master",
+    "coffee-script": "~1.7.1",
+    "docopt": "~0.4.0",
+    "recursive-readdir": "~1.1.1",
+    "mkdirp": "~0.5.0",
+    "async": "~0.9.0",
+    "colors": "~0.6.2"
   }
 }
