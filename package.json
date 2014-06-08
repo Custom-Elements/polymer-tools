@@ -25,7 +25,7 @@
     "url": "https://github.com/Custom-Elements/polymer-tools/issues"
   },
   "homepage": "https://github.com/Custom-Elements/polymer-tools",
-  "devDependencies": {
+  "dependencies": {
     "vulcanize": "git://github.com/wballard/vulcanize#master",
     "vulcanize-less": "git://github.com/wballard/vulcanize-less#master",
     "vulcanize-browserify": "git://github.com/wballard/vulcanize-browserify#master"
