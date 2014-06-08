@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-source ${DIR}/tools
 for f in ${1}/*.html
 do
-  info building ${f} to ${2}/${f}
+  ./bin/vulcanize --preprocess vulcanize-less --preprocess vulcanize-browserify --inline -o ${2}/$(basename ${f}) ${f}
 done
 

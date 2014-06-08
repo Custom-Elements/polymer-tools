@@ -2,14 +2,9 @@
   "name": "polymer-tools",
   "version": "0.0.0",
   "description": "Build tools to make polymer element creation easy!",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "bin": {
     "polymer-build": "bin/polymer-build",
-    "polymer-watch": "bin/polymer-watch",
-    "tools": "bin/tools"
+    "polymer-watch": "bin/polymer-watch"
   },
   "repository": {
     "type": "git",
