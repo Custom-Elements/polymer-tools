@@ -40,7 +40,9 @@ Command line wrapper runner for vulcanization.
                 if e
                   callback(e)
                 else
-                  vulcanize.processDocument callback
+                  vulcanize.processDocument (e) ->
+                    console.log "built".blue
+                    callback(e)
 
 At this point the waterfall is built and ready to run.
 
