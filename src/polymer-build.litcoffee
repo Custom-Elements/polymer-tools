@@ -35,6 +35,13 @@ Command line wrapper runner for vulcanization.
                 input: file
                 output: file.replace(args.source_directory, args.build_directory)
                 outputDir: path.dirname(file.replace(args.source_directory, args.build_directory))
+
+Here is a bit of a special case, prevent polymer from being imported, this
+will allow us to use polymer core elements without conflicts arising from
+havign two different references to polymer.
+
+                excludes:
+                  imports: ['polymer.html']
               vulcanize.setOptions vulcanizeOptions, (e) ->
                 console.log "building #{vulcanizeOptions.input} to #{vulcanizeOptions.output}".green
                 if e
