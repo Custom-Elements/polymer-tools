@@ -64,7 +64,7 @@ Are we watching?
           app.use(express.static(args.root_directory))
           livereload app,
             port: 35729
-            watchDir: args.root_directory
+            watchDir: args.build_directory
           app.listen port
           console.log "http://localhost:#{port}/demo.html"
           watcher = chokidar.watch args.source_directory
