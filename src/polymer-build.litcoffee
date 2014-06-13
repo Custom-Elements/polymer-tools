@@ -32,6 +32,7 @@ Command line wrapper runner for vulcanization.
               vulcanizeOptions =
                 preprocess: ['vulcanize-less', 'vulcanize-browserify']
                 inline: true
+                strip: true
                 input: file
                 output: file.replace(args.source_directory, args.build_directory)
                 outputDir: path.dirname(file.replace(args.source_directory, args.build_directory))
