@@ -2,8 +2,12 @@ Command line wrapper runner for vulcanization.
 
     doc = """
     Usage:
-      polymer-build <source_directory> <build_directory>
-      polymer-build watch <root_directory> <source_directory> <build_directory>
+      polymer-build [options] <source_directory> <build_directory>
+      polymer-build [options] watch <root_directory> <source_directory> <build_directory>
+
+      --help             Show the help
+      --exclude-polymer  When building kits with polymer elements from the core
+                         team, skip importing polymer itself to avoid dual init
     """
     {docopt} = require 'docopt'
     args = docopt(doc)
@@ -16,12 +20,21 @@ Command line wrapper runner for vulcanization.
     chokidar = require 'chokidar'
     express = require 'express'
     livereload = require 'express-livereload'
+    wrench = require 'wrench'
     require 'colors'
+
 
     mkdirp args['<build_directory>'], ->
       args.source_directory = fs.realpathSync args['<source_directory>']
       args.build_directory = fs.realpathSync args['<build_directory>']
       args.root_directory = fs.realpathSync args['<root_directory>'] or '.'
+
+      for assets in ['images', 'media']
+        if fs.existsSync path.join(args.source_directory, assets)
+          wrench.copyDirSyncRecursive path.join(args.source_directory, assets),
+            path.join(args.build_directory, assets), forceDelete: true
+
+
       waterfall = []
 
       recursive args.source_directory, (err, files) ->
@@ -41,7 +54,8 @@ Here is a bit of a special case, prevent polymer from being imported, this
 will allow us to use polymer core elements without conflicts arising from
 havign two different references to polymer.
 
-                excludes:
+              if args['--exclude-polymer']
+                vulcanizeOptions.excludes =
                   imports: ['polymer.html']
               vulcanize.setOptions vulcanizeOptions, (e) ->
                 console.log "building #{vulcanizeOptions.input} to #{vulcanizeOptions.output}".green
