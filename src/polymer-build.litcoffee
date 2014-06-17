@@ -2,8 +2,9 @@ Command line wrapper runner for vulcanization.
 
     doc = """
     Usage:
-      polymer-build [options] <source_directory> <build_directory>
-      polymer-build [options] watch <root_directory> <source_directory> <build_directory>
+      polymer-build [options] watch <root_directory> <source_directory> <build_directory> [<only_these>...]
+      polymer-build [options] <source_directory> <build_directory> [<only_these>...]
+
 
       --help             Show the help
       --exclude-polymer  When building kits with polymer elements from the core
@@ -35,11 +36,16 @@ Command line wrapper runner for vulcanization.
             path.join(args.build_directory, assets), forceDelete: true
 
 
+      processFile = (filename) ->
+        path.extname(filename) is '.html' and
+          (args['<only_these>'].length is 0 or
+          path.basename(filename) in args['<only_these>'])
+
       waterfall = []
 
       recursive args.source_directory, (err, files) ->
         files.forEach (file) ->
-          if path.extname(file) is '.html'
+          if processFile(file)
             console.log "found #{file}".blue
             waterfall.push (callback) ->
               vulcanizeOptions =
@@ -58,12 +64,12 @@ havign two different references to polymer.
                 vulcanizeOptions.excludes =
                   imports: ['polymer.html']
               vulcanize.setOptions vulcanizeOptions, (e) ->
-                console.log "building #{vulcanizeOptions.input} to #{vulcanizeOptions.output}".green
+                console.log "building #{vulcanizeOptions.input} to #{vulcanizeOptions.output}".blue
                 if e
                   callback(e)
                 else
                   vulcanize.processDocument (e) ->
-                    console.log "built".blue
+                    console.log "built #{vulcanizeOptions.input}".green
                     callback(e)
 
 At this point the waterfall is built and ready to run.
