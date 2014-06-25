@@ -1,5 +1,5 @@
 {
-  "name": "polymer-tools",
+  "name": "polymer-build",
   "version": "0.0.1",
   "description": "Build tools to make polymer element creation easy!",
   "bin": {
