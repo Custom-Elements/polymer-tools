@@ -17,10 +17,8 @@ script tags in the combined imported document and browserify them.
        src = el.attr('src')
        if src
          waterfall.push (callback) ->
-           fs.readFile src, 'utf-8', callback
-         waterfall.push (content, callback) ->
-           content = content.replace(/^\uFEFF/, '')
            b = browserify()
+           b.add src
            b.transform 'coffeeify'
            b.transform 'uglifyify',
              inline_script: true
