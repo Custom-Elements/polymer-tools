@@ -15,6 +15,7 @@ Command line wrapper runner for vulcanization.
     args = docopt(doc)
     importer = require './importer.litcoffee'
     scripter = require './scripter.litcoffee'
+    styler = require './styler.litcoffee'
     path = require 'path'
     fs = require 'fs'
     mkdirp = require 'mkdirp'
@@ -76,6 +77,10 @@ having two different references to polymer.
           waterfall.push ($, callback) ->
             console.log "compiling script #{targetfile}".blue
             scripter $, options, (e, $) ->
+              callback e, $
+          waterfall.push ($, callback) ->
+            console.log "compiling styles #{targetfile}".blue
+            styler $, options, (e, $) ->
               callback e, $
           waterfall.push ($, callback) ->
             console.log "writing #{targetfile}".blue

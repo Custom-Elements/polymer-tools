@@ -30,4 +30,4 @@ script tags in the combined imported document and browserify them.
              el.replaceWith('<script>' + content + '</script>')
              callback e
       async.waterfall waterfall, (e) ->
-        callback(e, $)
+        callback e, $

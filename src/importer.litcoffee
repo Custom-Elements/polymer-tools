@@ -29,6 +29,11 @@ normalized, relative to the import.
         src = el.attr 'src'
         if src
           el.attr 'src', path.join(path.dirname($.filename), src)
+      $(constants.STYLESHEET).each ->
+        el = $(this)
+        href = el.attr 'href'
+        if href
+          el.attr 'href', path.join(path.dirname($.filename), href)
       $(constants.IMPORTS).each ->
         el = $(this)
         href = el.attr('href')
