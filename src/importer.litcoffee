@@ -10,7 +10,7 @@ vulcanize, though wired up with an asynchronous flow.
     async = require 'async'
     constants = require './constants.js'
 
-Files without the BOM.
+Files without the BOM as a document.
 
     readFile = (filename) ->
       content = fs.readFileSync(filename, 'utf8')
@@ -19,10 +19,16 @@ Files without the BOM.
       $
 
 This is the key step, look for all import statements and inline
-that content recursively.
+that content recursively. As part of doing this, `src` paths must be
+normalized, relative to the import.
 
     processImports = ($, options, callback) ->
       waterfall = []
+      $(constants.JS_SRC).each ->
+        el = $(this)
+        src = el.attr 'src'
+        if src
+          el.attr 'src', path.join(path.dirname($.filename), src)
       $(constants.IMPORTS).each ->
         el = $(this)
         href = el.attr('href')
@@ -36,8 +42,8 @@ that content recursively.
             processImports readFile(filename), options, (e, $) ->
               el.replaceWith($.html())
               callback(e)
-      async.waterfall waterfall, ->
-        callback undefined, $
+      async.waterfall waterfall, (e) ->
+        callback e, $
 
 This is it, the importer.
 ### filename
