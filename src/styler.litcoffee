@@ -6,7 +6,7 @@ tools in the browser will always show you what you are looking for.
     path = require 'path'
     fs = require 'fs'
     async = require 'async'
-    constants = require './constants.js'
+    constants = require './constants.litcoffee'
 
     module.exports = ($, options, callback) ->
       waterfall = []

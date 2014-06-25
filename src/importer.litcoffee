@@ -8,7 +8,7 @@ vulcanize, though wired up with an asynchronous flow.
     path = require 'path'
     fs = require 'fs'
     async = require 'async'
-    constants = require './constants.js'
+    constants = require './constants.litcoffee'
 
 Files without the BOM as a document.
 

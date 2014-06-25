@@ -5,7 +5,7 @@ script tags in the combined imported document and browserify them.
     fs = require 'fs'
     browserify = require 'browserify'
     async = require 'async'
-    constants = require './constants.js'
+    constants = require './constants.litcoffee'
 
     readFile = (filename) ->
       content = fs.readFileSync(filename, 'utf8')
