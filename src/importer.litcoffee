@@ -33,13 +33,22 @@ that content recursively.
         else
           waterfall.push (callback) ->
             filename = path.resolve(path.dirname($.filename), href)
-            processImports readFile(filename), options, (e, content) ->
-              el.replaceWith(content)
+            processImports readFile(filename), options, (e, $) ->
+              el.replaceWith($.html())
               callback(e)
       async.waterfall waterfall, ->
-        callback undefined, $.html()
+        callback undefined, $
 
 This is it, the importer.
+### filename
+Just a string, points to the file to read and resolve imports
+### options
+Looks for an `exclude(el, href)`, passed a cheerio element and the href
+to be imports. This gives you the ability to exclude any file, which
+most specifically is useful to exclude polymer itself when building polymer
+core team's elements.
+### callback(err, $)
+Callback with a cheerio document.
 
     module.exports = (filename, options, callback) ->
       processImports readFile(filename), options, callback

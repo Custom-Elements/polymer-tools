@@ -55,28 +55,38 @@ Command line wrapper runner for vulcanization.
         .map (file) -> path.join(args.source_directory, file)
         .each (file) ->
           console.log "found #{file}".blue
-          waterfall.push (callback) ->
+          targetfile = path.join args.build_directory, file.replace(args.source_directory, '')
 
 Here is a bit of a special case, prevent polymer from being imported, this
 will allow us to use polymer core elements without conflicts arising from
 having two different references to polymer.
 
-            options =
-              exclude: (el, href) ->
-                if args['--exclude-polymer']
-                  if href.slice(-12) is 'polymer.html'
-                    return true
-                return false
-            console.log "building #{file}".blue
-            importer file, options, (e, content) ->
-              console.log "built #{file}".green
-              #console.log content
-              callback(e)
+          options =
+            exclude: (el, href) ->
+              if args['--exclude-polymer']
+                if href.slice(-12) is 'polymer.html'
+                  return true
+              return false
+
+          waterfall.push (callback) ->
+            console.log "importing #{file}".blue
+            importer file, options, (e, $) ->
+              callback e, $
+          waterfall.push ($, callback) ->
+            console.log "writing #{targetfile}".blue
+            mkdirp path.dirname(targetfile), (e) ->
+              if e
+                callback(e)
+              else
+                fs.writeFile targetfile, $.html(), callback
+          waterfall.push (callback) ->
+            console.log "complete #{targetfile}".green
+            callback()
 
 At this point the waterfall is built and ready to run.
 
-        async.waterfall waterfall, (e) ->
-          console.error("#{e}".red) if e
+      async.waterfall waterfall, (e) ->
+        console.error("#{e}".red) if e
 
 Are we watching?
 
