@@ -13,7 +13,7 @@ Command line wrapper runner for vulcanization.
     {docopt} = require 'docopt'
     _ = require 'lodash'
     args = docopt(doc)
-    vulcanize = require './vulcan'
+    importer = require './importer.litcoffee'
     path = require 'path'
     fs = require 'fs'
     mkdirp = require 'mkdirp'
@@ -56,28 +56,22 @@ Command line wrapper runner for vulcanization.
         .each (file) ->
           console.log "found #{file}".blue
           waterfall.push (callback) ->
-            vulcanizeOptions =
-              inline: true
-              strip: true
-              input: file
-              output: file.replace(args.source_directory, args.build_directory)
-              outputDir: path.dirname(file.replace(args.source_directory, args.build_directory))
 
 Here is a bit of a special case, prevent polymer from being imported, this
 will allow us to use polymer core elements without conflicts arising from
-havign two different references to polymer.
+having two different references to polymer.
 
-            if args['--exclude-polymer']
-              vulcanizeOptions.excludes =
-                imports: ['polymer.html']
-            vulcanize.setOptions vulcanizeOptions, (e) ->
-              console.log "building #{vulcanizeOptions.input} to #{vulcanizeOptions.output}".blue
-              if e
-                callback(e)
-              else
-                vulcanize.processDocument (e) ->
-                  console.log "built #{vulcanizeOptions.input}".green
-                  callback(e)
+            options =
+              exclude: (el, href) ->
+                if args['--exclude-polymer']
+                  if href.slice(-12) is 'polymer.html'
+                    return true
+                return false
+            console.log "building #{file}".blue
+            importer file, options, (e, content) ->
+              console.log "built #{file}".green
+              #console.log content
+              callback(e)
 
 At this point the waterfall is built and ready to run.
 

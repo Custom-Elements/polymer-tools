@@ -48,7 +48,7 @@ function exclude(regexes, href) {
 
 function skipImport(el) {
   return typeof el.attr('skip-vulcanization') !== 'undefined';
-}
+_}
 
 function skipImage(el, href) {
   return skipImport(el) || href.slice(0, 4) === 'data';
@@ -384,24 +384,6 @@ function handleMainDocument(callback) {
       if (e) {
         console.error(e);
       }
-    }
-  });
-}
-
-function deduplicateImports($) {
-  var imports = {};
-  $(constants.IMPORTS).each(function() {
-    var el = $(this);
-    var href = el.attr('href');
-    // TODO(dfreedm): allow a user defined base url?
-    var abs = url.resolve('http://', href);
-    if (!imports[abs]) {
-      imports[abs] = true;
-    } else {
-      if(options.verbose) {
-        console.log('Import Dependency deduplicated');
-      }
-      el.remove();
     }
   });
 }
