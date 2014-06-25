@@ -18,3 +18,4 @@
       JS_INLINE: JS.split(',').map((s) -> s + ':not([src])').join(',')
       CSS: 'style:not([type]), style[type="text/css"]'
       POLYMER_INVOCATION: /Polymer\(([^,{]+)?(?:,\s*)?({|\))/
+      POLYMER_ELEMENT: 'polymer-element'
