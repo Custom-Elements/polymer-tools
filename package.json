@@ -1,6 +1,6 @@
 {
   "name": "polymer-build",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Build tools to make polymer element creation easy!",
   "bin": {
     "polymer-build": "bin/polymer-build"
@@ -38,6 +38,7 @@
     "express-livereload": "0.0.24",
     "less": "^1.7.3",
     "lodash": "^2.4.1",
+    "mime": "^1.2.11",
     "mkdirp": "~0.5.0",
     "parseurl": "^1.0.1",
     "uglify-js": "^2.4.14",
