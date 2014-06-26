@@ -22,7 +22,11 @@ having two different references to polymer.
                 return true
             return false
           exclude: (el, href) ->
-            if href.slice(0, 4) is 'http'
+            if href.slice(0, 5) is 'http:'
+              return true
+            if href.slice(0, 6) is 'https:'
+              return true
+            if href.slice(0, 5) is 'data:'
               return true
             return false
 
