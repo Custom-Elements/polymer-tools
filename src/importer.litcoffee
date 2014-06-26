@@ -27,19 +27,19 @@ normalized, relative to the import.
       $(constants.JS_SRC).each ->
         el = $(this)
         src = el.attr 'src'
-        if src
+        if src and not options?.exclude(el, src)
           el.attr 'src', path.join(path.dirname($.filename), src)
       $(constants.STYLESHEET).each ->
         el = $(this)
         href = el.attr 'href'
-        if href
+        if href and not options?.exclude(el, href)
           el.attr 'href', path.join(path.dirname($.filename), href)
       $(constants.IMPORTS).each ->
         el = $(this)
         href = el.attr('href')
         if el.attr('skip-vulcanization')? or el.attr('skip-import')?
           #do nothing
-        else if options?.exclude el, href
+        else if options?.destroy el, href
           el.replaceWith ''
         else
           waterfall.push (callback) ->

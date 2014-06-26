@@ -22,6 +22,7 @@ Command line wrapper runner for vulcanization.
     wrench = require 'wrench'
     async = require 'async'
     builder = require './builder.litcoffee'
+    middleware = require './middleware.litcoffee'
     require 'colors'
 
     mkdirp args['<build_directory>'], ->
@@ -78,7 +79,7 @@ Are we watching?
         if args.watch
           port = process.env['PORT'] or 10000
           app = express()
-          app.use(express.static(args.root_directory))
+          app.use middleware(process.cwd())
           livereload app,
             port: 35729
             watchDir: args.build_directory

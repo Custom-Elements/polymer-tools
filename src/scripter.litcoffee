@@ -6,6 +6,7 @@ script tags in the combined imported document and browserify them.
     browserify = require 'browserify'
     async = require 'async'
     constants = require './constants.litcoffee'
+    uglify = require 'uglify-js'
 
     readFile = (filename) ->
       content = fs.readFileSync(filename, 'utf8')
@@ -20,12 +21,13 @@ script tags in the combined imported document and browserify them.
            b = browserify()
            b.add src
            b.transform 'coffeeify'
-           b.transform 'uglifyify',
-             inline_script: true
-             beautify: true
            b.bundle {}, (e, content) ->
              content = content.replace(/<\x2fscript([>\/\t\n\f\r ])/gi, "<\\/script$1")
-             el.replaceWith('<script>' + content + '</script>')
+             ast = uglify.parse(content)
+             content = ast.print_to_string
+               inline_script: true
+               beautify: true
+             el.replaceWith "<script built='#{src}'>#{content}</script>"
              callback e
       async.waterfall waterfall, (e) ->
         callback e, $

@@ -16,10 +16,12 @@ will allow us to use polymer core elements without conflicts arising from
 having two different references to polymer.
 
         options =
-          exclude: (el, href) ->
+          destroy: (el, href) ->
             if args['--exclude-polymer']
               if href.slice(-12) is 'polymer.html'
                 return true
+            return false
+          exclude: (el, href) ->
             if href.slice(0, 4) is 'http'
               return true
             return false

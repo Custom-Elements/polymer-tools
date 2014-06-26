@@ -39,7 +39,8 @@
     "less": "^1.7.3",
     "lodash": "^2.4.1",
     "mkdirp": "~0.5.0",
-    "uglifyify": "^2.4.0",
+    "parseurl": "^1.0.1",
+    "uglify-js": "^2.4.14",
     "wrench": "^1.5.8"
   }
 }
