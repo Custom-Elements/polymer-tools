@@ -15,7 +15,7 @@ script tags in the combined imported document and browserify them.
      $(constants.JS_SRC).each ->
        el = $(this)
        src = el.attr('src')
-       if src
+       if src and not options?.exclude(el, src)
          waterfall.push (callback) ->
            b = browserify()
            b.add src

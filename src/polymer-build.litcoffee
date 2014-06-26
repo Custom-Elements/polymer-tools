@@ -13,20 +13,16 @@ Command line wrapper runner for vulcanization.
     {docopt} = require 'docopt'
     _ = require 'lodash'
     args = docopt(doc)
-    importer = require './importer.litcoffee'
-    scripter = require './scripter.litcoffee'
-    styler = require './styler.litcoffee'
-    linker = require './linker.litcoffee'
     path = require 'path'
     fs = require 'fs'
     mkdirp = require 'mkdirp'
-    async = require 'async'
     chokidar = require 'chokidar'
     express = require 'express'
     livereload = require 'express-livereload'
     wrench = require 'wrench'
+    async = require 'async'
+    builder = require './builder.litcoffee'
     require 'colors'
-
 
     mkdirp args['<build_directory>'], ->
       args.source_directory = fs.realpathSync args['<source_directory>']
@@ -59,41 +55,15 @@ Command line wrapper runner for vulcanization.
         .each (file) ->
           console.log "found #{file}".blue
           targetfile = path.join args.build_directory, file.replace(args.source_directory, '')
-
-Here is a bit of a special case, prevent polymer from being imported, this
-will allow us to use polymer core elements without conflicts arising from
-having two different references to polymer.
-
-          options =
-            exclude: (el, href) ->
-              if args['--exclude-polymer']
-                if href.slice(-12) is 'polymer.html'
-                  return true
-              return false
-
           waterfall.push (callback) ->
-            console.log "importing #{file}".blue
-            importer file, options, (e, $) ->
-              callback e, $
-          waterfall.push ($, callback) ->
-            console.log "compiling script #{targetfile}".blue
-            scripter $, options, (e, $) ->
-              callback e, $
-          waterfall.push ($, callback) ->
-            console.log "compiling styles #{targetfile}".blue
-            styler $, options, (e, $) ->
-              callback e, $
-          waterfall.push ($, callback) ->
-            console.log "linking #{targetfile}".blue
-            linker $, options, (e, $) ->
-              callback e, $
-          waterfall.push ($, callback) ->
+            builder(args) file, callback
+          waterfall.push (content, callback) ->
             console.log "writing #{targetfile}".blue
             mkdirp path.dirname(targetfile), (e) ->
               if e
                 callback(e)
               else
-                fs.writeFile targetfile, $.html(), callback
+                fs.writeFile targetfile, content, callback
           waterfall.push (callback) ->
             console.log "complete #{targetfile}".green
             callback()

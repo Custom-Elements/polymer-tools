@@ -13,7 +13,8 @@ tools in the browser will always show you what you are looking for.
       $(constants.STYLESHEET).each ->
         el = $(this)
         href = el.attr('href')
-        if href
+        if href and not options?.exclude(el, href)
+          console.log "  #{href}".blue
           waterfall.push (callback) ->
            fs.readFile href, 'utf-8', callback
           waterfall.push (content, callback) ->
@@ -26,7 +27,8 @@ tools in the browser will always show you what you are looking for.
              ]
            parser = new less.Parser(options);
            parser.parse content, (e, parsed) ->
-             el.replaceWith("<style>#{parsed.toCSS(options)}</style>")
+             if not e and parsed
+               el.replaceWith("<style>#{parsed.toCSS(options)}</style>")
              callback e
       async.waterfall waterfall, (e) ->
         callback e, $
