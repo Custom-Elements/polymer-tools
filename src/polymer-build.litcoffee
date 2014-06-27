@@ -89,3 +89,10 @@ Are we watching?
           watcher.on 'change', ->
             async.waterfall waterfall, (e) ->
               console.error("#{e}".red) if e
+          server = require('custom-event-server') debug: true
+          server.on 'beep', (name, detail, client) ->
+            client.fire 'boop', {}
+          server.on 'woot', (name, detail, client) ->
+            console.log 'ahhh!'
+          server.listen port + 1
+          console.log "ws://localhost:#{port+1} server events"
