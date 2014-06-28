@@ -33,6 +33,7 @@
     "coffee-script": "~1.7.1",
     "coffeeify": "^0.6.0",
     "colors": "~0.6.2",
+    "custom-event-server": "^0.0.0",
     "docopt": "~0.4.0",
     "express": "~4.4.1",
     "express-livereload": "0.0.24",
@@ -41,8 +42,8 @@
     "mime": "^1.2.11",
     "mkdirp": "~0.5.0",
     "parseurl": "^1.0.1",
+    "polymer": "git://github.com/custom-elements/polymer",
     "uglify-js": "^2.4.14",
-    "wrench": "^1.5.8",
-    "custom-event-server": "^0.0.0"
+    "wrench": "^1.5.8"
   }
 }

@@ -9,6 +9,8 @@ Command line wrapper runner for vulcanization.
       --help             Show the help
       --exclude-polymer  When building kits with polymer elements from the core
                          team, skip importing polymer itself to avoid dual init
+      --copy-polymer     When going to the <build_directory> copy over polymer
+                         itself to the destination. Useful for whole apps.
     """
     {docopt} = require 'docopt'
     _ = require 'lodash'
@@ -69,10 +71,18 @@ Command line wrapper runner for vulcanization.
             console.log "complete #{targetfile}".green
             callback()
 
+Need polymer?
+
+        if args['--copy-polymer']
+          waterfall.push (callback) ->
+            wrench.copyDirRecursive path.join(__dirname, '..', 'node_modules', 'polymer'),
+              path.join(args.build_directory, 'polymer'), forceDelete: true, callback
+
 At this point the waterfall is built and ready to run.
 
       async.waterfall waterfall, (e) ->
         console.error("#{e}".red) if e
+
 
 Are we watching?
 
