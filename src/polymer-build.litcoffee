@@ -24,6 +24,9 @@ Command line wrapper runner for vulcanization.
     wrench = require 'wrench'
     async = require 'async'
     builder = require './builder.litcoffee'
+    scriptcompiler = require './scriptcompiler.litcoffee'
+    configcompiler = require './configcompiler.litcoffee'
+    writer = require './writer.litcoffee'
     middleware = require './middleware.litcoffee'
     require 'colors'
 
@@ -38,38 +41,14 @@ Command line wrapper runner for vulcanization.
         include: '\.(json|yaml)$'
       }
 
-      #classic asset directories
-      for assets in ['images', 'media']
-        if fs.existsSync path.join(args.source_directory, assets)
-          wrench.copyDirSyncRecursive path.join(args.source_directory, assets),
-            path.join(args.build_directory, assets), forceDelete: true
-
-
-      processFile = (filename) ->
-        path.extname(filename) is '.html' and
-          (args['<only_these>'].length is 0 or
-          path.basename(filename) in args['<only_these>'])
+This waterfall is the build pipeline.
 
       waterfall = []
 
-      _(wrench.readdirSyncRecursive args.source_directory)
-        .select processFile
-        .map (file) -> path.join(args.source_directory, file)
-        .each (file) ->
-          console.log "found #{file}".blue
-          targetfile = path.join args.build_directory, file.replace(args.source_directory, '')
-          waterfall.push (callback) ->
-            builder(args) file, callback
-          waterfall.push (content, callback) ->
-            console.log "writing #{targetfile}".blue
-            mkdirp path.dirname(targetfile), (e) ->
-              if e
-                callback(e)
-              else
-                fs.writeFile targetfile, content, callback
-          waterfall.push (callback) ->
-            console.log "complete #{targetfile}".green
-            callback()
+Optional file limiting.
+
+      processFile = (filename) ->
+        (args['<only_these>'].length is 0 or path.basename(filename) in args['<only_these>'])
 
 Need polymer?
 
@@ -78,11 +57,48 @@ Need polymer?
             wrench.copyDirRecursive path.join(__dirname, '..', 'node_modules', 'polymer'),
               path.join(args.build_directory, 'polymer'), forceDelete: true, callback
 
+Asset directories, this is just a copy. Tack on more directories if you need.
+
+      for dir in ['images', 'media']
+        do ->
+          assets = dir
+          waterfall.push (callback) ->
+            src = path.join args.source_directory, assets
+            build = path.join args.build_directory, assets
+            fs.exists src, (exists) ->
+              if exists
+                wrench.copyDirRecursive src, build, forceDelete: true, callback
+              else
+                callback()
+
+Whip through all the source files and build them as needed.
+
+      _(wrench.readdirSyncRecursive args.source_directory)
+        .select processFile
+        .map (file) -> path.join(args.source_directory, file)
+        .each (file) ->
+          if path.extname(file) is '.html'
+            waterfall.push (callback) ->
+              builder(args) file, callback
+            waterfall.push writer(args, file)
+          if path.extname(file) is '.js'
+            targetfile = path.join args.build_directory, file.replace(args.source_directory, '')
+            waterfall.push (callback) ->
+              scriptcompiler file, callback
+            waterfall.push writer(args, file)
+          if path.extname(file) is '.yaml'
+            targetfile = path.join args.build_directory, file.replace(args.source_directory, '')
+            waterfall.push writer(args, file)
+          if path.extname(file) is '.json'
+            targetfile = path.join args.build_directory, file.replace(args.source_directory, '')
+            waterfall.push (callback) ->
+              configcompiler(args) file, callback
+            waterfall.push writer(args, file)
+
 At this point the waterfall is built and ready to run.
 
       async.waterfall waterfall, (e) ->
         console.error("#{e}".red) if e
-
 
 Are we watching?
 
