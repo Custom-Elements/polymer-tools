@@ -2,6 +2,8 @@ Standard compilation sequence for script source files.
 
     browserify = require 'browserify'
     path = require 'path'
+    fs = require 'fs'
+    require 'colors'
 
     module.exports = (src, callback) ->
        if path.basename(src) is 'platform.js' or path.basename(src) is 'polymer.js'

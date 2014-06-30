@@ -45,7 +45,7 @@ normalized, relative to the import.
           waterfall.push (callback) ->
             filename = path.resolve(path.dirname($.filename), href)
             processImports readFile(filename), options, (e, $) ->
-              el.replaceWith($.html())
+              el.replaceWith $.html()
               callback(e)
       async.waterfall waterfall, (e) ->
         callback e, $
