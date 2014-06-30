@@ -21,8 +21,8 @@ tools in the browser will always show you what you are looking for.
            process.cwd()
          ]
         if href and not options?.exclude(el, href)
-          console.log "  #{href}".blue
           waterfall.push (callback) ->
+            options.start "styling", href
             fs.readFile href, 'utf-8', callback
           waterfall.push (content, callback) ->
             content = content.replace(/^\uFEFF/, '')
@@ -40,6 +40,7 @@ tools in the browser will always show you what you are looking for.
             callback undefined, content
           waterfall.push (content, callback) ->
             el.replaceWith("<style>#{content}</style>")
+            options.stop "styling", href
             callback()
       async.waterfall waterfall, (e) ->
         callback e, $

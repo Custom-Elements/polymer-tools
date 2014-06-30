@@ -6,25 +6,29 @@ Standard compilation sequence for script source files.
     through = require 'through'
     require 'colors'
 
-    escapeContent = (content) ->
-      content.replace(/\\/g, '\\\\').replace(/'/g, '\\\'').replace(/\r?\n/g, '\\n\' +\n    \'')
-    contentExport = (content) ->
-      "module.exports = '" + escapeContent(content) + "';"
-    inliner = (file) ->
-      data = ''
-      write = (buffer) ->
-        data += buffer
-      end = ->
-        try
-          content = fs.readFileSync file, 'utf8'
-        catch e
-          this.emit 'error', e
-        this.queue contentExport(content)
-        this.queue null
-      if path.extname(file) is '.svg'
-        through write, end
-      else
-        through()
+Given an extension of a file, create a browserify transform to just turn it
+into a string constant in source.
+
+    requireString = (extension) ->
+      escapeContent = (content) ->
+        content.replace(/\\/g, '\\\\').replace(/'/g, '\\\'').replace(/\r?\n/g, '\\n\' +\n    \'')
+      contentExport = (content) ->
+        "module.exports = '" + escapeContent(content) + "';"
+      (file) ->
+        data = ''
+        write = (buffer) ->
+          data += buffer
+        end = ->
+          try
+            content = fs.readFileSync file, 'utf8'
+          catch e
+            this.emit 'error', e
+          this.queue contentExport(content)
+          this.queue null
+        if path.extname(file) is extension
+          through write, end
+        else
+          through()
 
     module.exports = (src, callback) ->
        if path.basename(src) is 'platform.js' or path.basename(src) is 'polymer.js'
@@ -33,5 +37,5 @@ Standard compilation sequence for script source files.
          b = browserify()
          b.add src
          b.transform 'coffeeify'
-         b.transform inliner
+         b.transform requireString '.svg'
          b.bundle {}, callback

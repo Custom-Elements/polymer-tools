@@ -18,14 +18,16 @@ Important to not browserify platform or polymer itself.
 
        if src and not options?.exclude(el, src)
          waterfall.push (callback) ->
+           options.start "scripting", src
            scriptcompiler src, callback
          waterfall.push (content, callback) ->
-             content = content.replace(/<\x2fscript([>\/\t\n\f\r ])/gi, "<\\/script$1")
-             ast = uglify.parse(content)
-             content = ast.print_to_string
-               inline_script: true
-               beautify: true
-             el.replaceWith "<script built='#{src}'>#{content}</script>"
-             callback()
+           options.stop "scripting", src
+           content = content.replace(/<\x2fscript([>\/\t\n\f\r ])/gi, "<\\/script$1")
+           ast = uglify.parse(content)
+           content = ast.print_to_string
+             inline_script: true
+             beautify: true
+           el.replaceWith "<script built='#{src}'>#{content}</script>"
+           callback()
       async.waterfall waterfall, (e) ->
         callback e, $
