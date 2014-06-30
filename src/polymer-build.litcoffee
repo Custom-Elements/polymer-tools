@@ -105,7 +105,7 @@ Are we watching?
         if args.watch
           port = process.env['PORT'] or 10000
           app = express()
-          app.use middleware(process.cwd())
+          app.use express.static(args.root_directory)
           livereload app,
             port: 35729
             watchDir: args.build_directory
