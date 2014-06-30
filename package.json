@@ -43,6 +43,7 @@
     "mkdirp": "~0.5.0",
     "parseurl": "^1.0.1",
     "polymer": "git://github.com/custom-elements/polymer",
+    "through": "^2.3.4",
     "uglify-js": "^2.4.14",
     "wrench": "^1.5.8"
   }
