@@ -52,10 +52,10 @@ Optional file limiting.
 
 Need polymer?
 
-        if args['--copy-polymer']
-          waterfall.push (callback) ->
-            wrench.copyDirRecursive path.join(__dirname, '..', 'node_modules', 'polymer'),
-              path.join(args.build_directory, 'polymer'), forceDelete: true, callback
+      if args['--copy-polymer']
+        waterfall.push (callback) ->
+          wrench.copyDirRecursive path.join(__dirname, '..', 'node_modules', 'polymer'),
+            path.join(args.build_directory, 'polymer'), forceDelete: true, callback
 
 Asset directories, this is just a copy. Tack on more directories if you need.
 
