@@ -2,6 +2,7 @@
   "name": "polymer-build",
   "version": "0.0.8",
   "description": "Build tools to make polymer element creation easy!",
+  "default": "index.js",
   "bin": {
     "polymer-build": "bin/polymer-build"
   },
