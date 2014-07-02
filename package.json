@@ -1,6 +1,6 @@
 {
   "name": "polymer-build",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Build tools to make polymer element creation easy!",
   "default": "index.js",
   "bin": {
