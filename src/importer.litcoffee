@@ -56,7 +56,7 @@ Nested imports, now things get recursive.
             nested_waterfall.push (callback) ->
               filename = path.resolve(path.dirname($.filename), href)
               processImports filename, options, (e, $) ->
-                el.replaceWith $.html()
+                el.replaceWith $.html() unless e
                 callback(e)
         async.waterfall nested_waterfall, (e) ->
           options.stop "importing", filename
