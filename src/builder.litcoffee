@@ -48,6 +48,9 @@ having two different references to polymer.
         waterfall.push ($, callback) ->
           styler $, options, (e, $) ->
             callback e, $
+        waterfall.push ($, callback) ->
+          linker $, options, (e, $) ->
+            callback e, $
         async.waterfall waterfall, (e, $) ->
           if e
             console.error("#{e}".red)
