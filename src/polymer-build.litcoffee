@@ -110,7 +110,8 @@ Are we watching?
             port: 35729
             watchDir: args.build_directory
           app.listen port
-          console.log "http://localhost:#{port}/demo.html"
+          if fs.existsSync path.join(args.root_directory, 'demo.html')
+            console.log "Test Page".blue, "http://localhost:#{port}/demo.html"
           watcher = chokidar.watch args.source_directory
           watcher.on 'change', ->
             async.waterfall waterfall, (e) ->
@@ -121,4 +122,4 @@ Are we watching?
           server.on 'woot', (name, detail, client) ->
             console.log 'ahhh!'
           server.listen port + 1
-          console.log "ws://localhost:#{port+1} server events"
+          console.log "Test Server Events".blue, "ws://localhost:#{port+1}"
