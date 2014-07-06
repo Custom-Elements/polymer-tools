@@ -29,7 +29,10 @@ tools in the browser will always show you what you are looking for.
             parser = new less.Parser cssOptions
             parser.parse content, callback
           waterfall.push (content, callback) ->
-            callback undefined, content.toCSS cssOptions
+            try
+              callback undefined, content.toCSS cssOptions
+            catch e
+              callback e
           waterfall.push (content, callback) ->
             content = content.replace constants.URL, (match) ->
               url = match.replace(/["']/g, "").slice(4, -1)
