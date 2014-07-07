@@ -106,7 +106,7 @@ Are we watching?
         port = process.env['PORT'] or 10000
         console.log "Polymer Build Server".blue, args.root_directory
         app = express()
-        app.use middleware(args.root_directory)
+        app.use middleware(args, args.root_directory)
         app.listen port
         console.log "Live Reload".blue, args.root_directory
         reload = livereload.createServer()

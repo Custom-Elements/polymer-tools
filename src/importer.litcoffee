@@ -51,7 +51,7 @@ Nested imports, now things get recursive.
           if el.attr('skip-vulcanization')? or el.attr('skip-import')?
             #do nothing
           else if options?.destroy el, href
-            el.replaceWith ''
+            el.replaceWith "<!-- did not import #{href}-->"
           else
             nested_waterfall.push (callback) ->
               filename = path.resolve(path.dirname($.filename), href)
