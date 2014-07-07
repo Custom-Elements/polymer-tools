@@ -102,24 +102,24 @@ At this point the waterfall is built and ready to run.
 
 Are we watching?
 
-      if args.watch
-        port = process.env['PORT'] or 10000
-        console.log "Polymer Build Server".blue, args.root_directory
-        app = express()
-        app.use middleware(args, args.root_directory)
-        app.listen port
-        console.log "Live Reload".blue, args.root_directory
-        reload = livereload.createServer()
-        reload.watch args.root_directory
-        if fs.existsSync path.join(args.root_directory, 'demo.html')
-          console.log "Test Page".blue, "http://localhost:#{port}/demo.html"
+        if args.watch && not e
+          port = process.env['PORT'] or 10000
+          console.log "Polymer Build Server".blue, args.root_directory
+          app = express()
+          app.use middleware(args, args.root_directory)
+          app.listen port
+          console.log "Live Reload".blue, args.root_directory
+          reload = livereload.createServer()
+          reload.watch args.root_directory
+          if fs.existsSync path.join(args.root_directory, 'demo.html')
+            console.log "Test Page".blue, "http://localhost:#{port}/demo.html"
 
 Server events, use this to test bubbling events through the server and back.
 
-        server = require('custom-event-server') debug: true
-        server.on 'beep', (name, detail, client) ->
-          client.fire 'boop', {}
-        server.on 'woot', (name, detail, client) ->
-          console.log 'ahhh!'
-        server.listen port + 1
-        console.log "Test Server Events".blue, "ws://localhost:#{port+1}"
+          server = require('custom-event-server') debug: true
+          server.on 'beep', (name, detail, client) ->
+            client.fire 'boop', {}
+          server.on 'woot', (name, detail, client) ->
+            console.log 'ahhh!'
+          server.listen port + 1
+          console.log "Test Server Events".blue, "ws://localhost:#{port+1}"
