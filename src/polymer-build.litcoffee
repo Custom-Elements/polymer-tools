@@ -107,6 +107,7 @@ Are we watching?
           console.log "Polymer Build Server".blue, args.root_directory
           app = express()
           app.use middleware(args, args.root_directory)
+          app.use express.static(args.root_directory)
           app.listen port
           console.log "Live Reload".blue, args.root_directory
           reload = livereload.createServer()
