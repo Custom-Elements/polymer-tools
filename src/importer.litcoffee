@@ -18,7 +18,6 @@ normalized, relative to the import.
     module.exports = processImports = (filename, options, callback) ->
       waterfall = []
 
-
       waterfall.push (callback) ->
         options.start "importing", filename
         fs.readFile filename, 'utf8', callback
@@ -55,6 +54,15 @@ Nested imports, now things get recursive.
           else
             nested_waterfall.push (callback) ->
               filename = path.resolve(path.dirname($.filename), href)
+
+              if path.basename($.filename) is 'polymer.html'
+                if options.importedPolymer
+                  console.log 'duplication polymer supressed'.yellow
+                  el.replaceWith "<!-- did not import #{$.filename}-->"
+                  callback()
+                  return
+                else
+                  options.importedPolymer = true
               processImports filename, options, (e, $) ->
                 el.replaceWith $.html() unless e
                 callback(e)

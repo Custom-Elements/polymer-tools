@@ -30,8 +30,17 @@ into a string constant in source.
         else
           through()
 
-    module.exports = (src, callback) ->
+Important to not browserify platform or polymer itself.
+
+    module.exports = (options, src, callback) ->
        if path.basename(src) is 'platform.js' or path.basename(src) is 'polymer.js'
+         if path.basename(src) is 'polymer.js'
+           if options.importedPolymerJS
+             console.log "duplication polymer.js supressed".yellow
+             callback undefined, ''
+             return
+            else
+              options.importedPolymerJS = true
          fs.readFile src, 'utf-8', callback
        else
          b = browserify()

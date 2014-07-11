@@ -14,12 +14,11 @@ script tags in the combined imported document and browserify them.
        el = $(this)
        src = el.attr('src')
 
-Important to not browserify platform or polymer itself.
 
        if src and not options?.exclude(el, src)
          waterfall.push (callback) ->
            options.start "scripting", src
-           scriptcompiler src, callback
+           scriptcompiler options, src, callback
          waterfall.push (content, callback) ->
            options.stop "scripting", src
            content = content.replace(/<\x2fscript([>\/\t\n\f\r ])/gi, "<\\/script$1")
