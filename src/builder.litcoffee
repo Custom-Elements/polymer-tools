@@ -25,7 +25,7 @@ having two different references to polymer.
             console.log indent(op, '-', options.depth).blue, message
             options.depth -= 1
           destroy: (el, href) ->
-            if href.slice(-12) is 'polymer.html' and filename.slice(-9) isnt 'demo.html'
+            if href.slice(-12) is 'polymer.html'
               if args['--exclude-polymer']
                 console.log "polymer import supressed".yellow
                 return true
