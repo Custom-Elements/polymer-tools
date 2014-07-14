@@ -112,6 +112,10 @@ Are we watching?
           console.log "Live Reload".blue, args.root_directory
           reload = livereload.createServer()
           reload.watch args.root_directory
+          watcher = chokidar.watch args.source_directory , {ignored: /\.swp/}
+          watcher.on 'change', ->
+            async.waterfall waterfall, (e) ->
+              console.error("#{e}".red) if e
           if fs.existsSync path.join(args.root_directory, 'demo.html')
             console.log "Test Page".blue, "http://localhost:#{port}/demo.html"
 
