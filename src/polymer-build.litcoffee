@@ -11,6 +11,7 @@ Command line wrapper runner for vulcanization.
                          team, skip importing polymer itself to avoid dual init
       --copy-polymer     When going to the <build_directory> copy over polymer
                          itself to the destination. Useful for whole apps.
+      --filewatch        Watch for file changes and rebuild, not just on pull.
     """
     {docopt} = require 'docopt'
     _ = require 'lodash'
@@ -84,7 +85,7 @@ Whip through all the source files and build them as needed.
           if path.extname(file) is '.js'
             targetfile = path.join args.build_directory, file.replace(args.source_directory, '')
             waterfall.push (callback) ->
-              scriptcompiler file, callback
+              scriptcompiler args, file, callback
             waterfall.push writer(args, file)
           if path.extname(file) is '.yaml'
             targetfile = path.join args.build_directory, file.replace(args.source_directory, '')
@@ -97,30 +98,40 @@ Whip through all the source files and build them as needed.
 
 At this point the waterfall is built and ready to run.
 
-      async.waterfall waterfall, (e) ->
-        console.error("#{e}".red) if e
+      build = ->
+        async.waterfall waterfall, (e) ->
+          console.error("#{e}".red) if e
+      build()
 
 Are we watching?
 
-        if args.watch && not e
-          port = process.env['PORT'] or 10000
-          console.log "Polymer Build Server".blue, args.root_directory
-          app = express()
-          app.use middleware(args, args.root_directory)
-          app.use express.static(args.root_directory)
-          app.listen port
-          console.log "Live Reload".blue, args.root_directory
-          reload = livereload.createServer()
-          reload.watch args.root_directory
-          if fs.existsSync path.join(args.root_directory, 'demo.html')
-            console.log "Test Page".blue, "http://localhost:#{port}/demo.html"
+      if args.watch
+        port = process.env['PORT'] or 10000
+        console.log "Polymer Build Server".blue, args.root_directory
+        app = express()
+        app.use middleware(args, args.root_directory)
+        app.use express.static(args.root_directory)
+        app.listen port
+        console.log "Live Reload".blue, args.root_directory
+        reload = livereload.createServer()
+        reload.watch args.root_directory
+        if fs.existsSync path.join(args.root_directory, 'demo.html')
+          console.log "Test Page".blue, "http://localhost:#{port}/demo.html"
+
+File watcher, not just middleware build on pull, this proactively builds.
+
+        if args['--filewatch']
+          console.log "Watching #{args.root_directory}".blue
+          watcher = chokidar.watch args.root_directory
+          watcher.on 'change', ->
+            build()
 
 Server events, use this to test bubbling events through the server and back.
 
-          server = require('custom-event-server') debug: true
-          server.on 'beep', (name, detail, client) ->
-            client.fire 'boop', {}
-          server.on 'woot', (name, detail, client) ->
-            console.log 'ahhh!'
-          server.listen port + 1
-          console.log "Test Server Events".blue, "ws://localhost:#{port+1}"
+        server = require('custom-event-server') debug: true
+        server.on 'beep', (name, detail, client) ->
+          client.fire 'boop', {}
+        server.on 'woot', (name, detail, client) ->
+          console.log 'ahhh!'
+        server.listen port + 1
+        console.log "Test Server Events".blue, "ws://localhost:#{port+1}"
