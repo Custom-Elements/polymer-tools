@@ -8,6 +8,7 @@ vulcanize, though wired up with an asynchronous flow.
     path = require 'path'
     fs = require 'fs'
     async = require 'async'
+    marked = require 'marked'
     constants = require './constants.litcoffee'
     require 'colors'
 
@@ -21,6 +22,14 @@ normalized, relative to the import.
       waterfall.push (callback) ->
         options.start "importing", filename
         fs.readFile filename, 'utf8', callback
+
+This might be markdown. Give it a shot.
+
+      waterfall.push (content, callback) ->
+        if path.extname(filename) is '.md'
+          marked content, callback
+        else
+          callback undefined, content
 
 Files without the BOM as a cheerio document.
 
@@ -54,10 +63,9 @@ Nested imports, now things get recursive.
           else
             nested_waterfall.push (callback) ->
               filename = path.resolve(path.dirname($.filename), href)
-
               if path.basename($.filename) is 'polymer.html'
                 if options.importedPolymer
-                  console.log 'duplication polymer supressed'.yellow
+                  console.log 'duplicate polymer supressed'.yellow
                   el.replaceWith "<!-- did not import #{$.filename}-->"
                   callback()
                   return
