@@ -20,7 +20,6 @@ having two different references to polymer.
           depth: 0
           start: (op, message) ->
             options.depth += 1
-            console.log indent(op, '-', options.depth).magenta, message
           stop: (op, message) ->
             console.log indent(op, '-', options.depth).blue, message
             options.depth -= 1
