@@ -12,6 +12,7 @@ Command line wrapper runner.
       --copy-polymer     When going to the <build_directory> copy over polymer
                          itself to the destination. Useful for whole apps.
       --filewatch        Watch for file changes and rebuild, not just on pull.
+      --quiet            SSSHHH! Less logging.
     """
     {docopt} = require 'docopt'
     _ = require 'lodash'

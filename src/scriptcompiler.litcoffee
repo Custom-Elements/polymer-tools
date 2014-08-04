@@ -36,7 +36,7 @@ Important to not browserify platform or polymer itself.
        if path.basename(src) is 'platform.js' or path.basename(src) is 'polymer.js'
          if path.basename(src) is 'polymer.js'
            if options.importedPolymerJS
-             console.log "duplication polymer.js supressed".yellow
+             console.log "duplicate polymer.js supressed".yellow
              callback undefined, ''
              return
             else
