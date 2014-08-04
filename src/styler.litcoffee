@@ -27,7 +27,6 @@ tools in the browser will always show you what you are looking for.
             per_href = []
             if cache[href]
               per_href.push (callback) ->
-                console.error "cache hit #{href}".red
                 callback undefined, cache[href]
             else
               per_href.push (callback) ->
