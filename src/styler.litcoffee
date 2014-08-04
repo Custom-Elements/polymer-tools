@@ -34,18 +34,18 @@ tools in the browser will always show you what you are looking for.
             catch e
               callback e
           waterfall.push (content, callback) ->
-            err = undefined
-            content = content.replace constants.URL, (match) ->
-              url = match.replace(/["']/g, "").slice(4, -1)
+            replacements = []
+            (content.match(constants.URL) or []).forEach (dataUrl) ->
+              url = dataUrl.replace(/["']/g, "").slice(4, -1)
+              url = path.join path.dirname(href), url
               if not options?.exclude(el, url)
-                url = path.join path.dirname(href), url
-                fs.readFile url, 'base64', callback
-                try
-                  data = fs.readFileSync(url).toString('base64')
-                  return "url(data:#{mime.lookup(url)};charset=utf-8;base64,#{data})"
-                catch ee
-                  err = ee
-            callback err, content
+                replacements.push (callback) ->
+                  fs.readFile url, 'base64', callback
+                replacements.push (font, callback) ->
+                  content = content.replace dataUrl, "url(data:#{mime.lookup(url)};charset=utf-8;base64,#{font})"
+                  callback()
+            async.waterfall replacements, (e) ->
+              callback e, content
           waterfall.push (content, callback) ->
             el.replaceWith("<style>#{content}</style>")
             options.stop "styling", href

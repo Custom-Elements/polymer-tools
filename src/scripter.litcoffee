@@ -13,8 +13,6 @@ script tags in the combined imported document and browserify them.
      $(constants.JS_SRC).each ->
        el = $(this)
        src = el.attr('src')
-
-
        if src and not options?.exclude(el, src)
          waterfall.push (callback) ->
            options.start "scripting", src
@@ -22,10 +20,6 @@ script tags in the combined imported document and browserify them.
          waterfall.push (content, callback) ->
            options.stop "scripting", src
            content = content.replace(/<\x2fscript([>\/\t\n\f\r ])/gi, "<\\/script$1")
-           ast = uglify.parse(content)
-           content = ast.print_to_string
-             inline_script: true
-             beautify: true
            el.replaceWith "<script built='#{src}'>#{content}</script>"
            callback()
       async.waterfall waterfall, (e) ->

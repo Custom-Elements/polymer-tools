@@ -19,10 +19,11 @@ having two different references to polymer.
         options =
           depth: 0
           start: (op, message) ->
+            console.log indent(op, '-', options.depth).blue, message
             options.depth += 1
           stop: (op, message) ->
-            console.log indent(op, '-', options.depth).blue, message
             options.depth -= 1
+            console.log indent(op, '-', options.depth).green.bold, message
           destroy: (el, href) ->
             if href.slice(-12) is 'polymer.html'
               if args['--exclude-polymer']
@@ -38,18 +39,24 @@ having two different references to polymer.
               return true
             return false
 
+This is the main waterfall, the idea is:
+* import: get all the files into one big string
+* link: remove duplicate element definitions
+* script: compile with browserify
+* style: transform stylesheets
+
         waterfall.push (callback) ->
           options.start "building", filename
           importer filename, options, (e, $) ->
+            callback e, $
+        waterfall.push ($, callback) ->
+          linker $, options, (e, $) ->
             callback e, $
         waterfall.push ($, callback) ->
           scripter $, options, (e, $) ->
             callback e, $
         waterfall.push ($, callback) ->
           styler $, options, (e, $) ->
-            callback e, $
-        waterfall.push ($, callback) ->
-          linker $, options, (e, $) ->
             callback e, $
         async.waterfall waterfall, (e, $) ->
           if e

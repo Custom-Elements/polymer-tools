@@ -1,4 +1,4 @@
-Command line wrapper runner for vulcanization.
+Command line wrapper runner.
 
     doc = """
     Usage:
