@@ -1,8 +1,15 @@
-# polymer-tools
-These are build tools used by
-[generator-literate-polymer](https://github.com/Custom-Elements/generator-literate-polymer).
+```
+Usage:
+  polymer-build [options] watch <root_directory> <source_directory> <build_directory> [<only_these>...]
+  polymer-build [options] <source_directory> <build_directory> [<only_these>...]
 
-No real reason to use these stand alone, but in a nutshell, this is a
-fork of vulcanize that has been modified to do transform pipelines for
-less and browserify, allowing you to vulcanize elements with more than
-just `.css` and `.js`.
+
+  --help             Show the help
+  --exclude-polymer  When building kits with polymer elements from the core
+                     team, skip importing polymer itself to avoid dual init
+  --copy-polymer     When going to the <build_directory> copy over polymer
+                     itself to the destination. Useful for whole apps.
+  --filewatch        Watch for file changes and rebuild, not just on pull.
+  --compress         Make the output smaller by removing comments and source maps.
+  --quiet            SSSHHH! Less logging.
+```
