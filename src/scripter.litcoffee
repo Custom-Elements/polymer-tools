@@ -20,6 +20,10 @@ script tags in the combined imported document and browserify them.
          waterfall.push (content, callback) ->
            options.stop "scripting", src
            content = content.replace(/<\x2fscript([>\/\t\n\f\r ])/gi, "<\\/script$1")
+           if options['--compress']
+             ast = uglify.parse(content)
+             content = ast.print_to_string
+               inline_script: true
            el.replaceWith "<script built='#{src}'>#{content}</script>"
            callback()
       async.waterfall waterfall, (e) ->
