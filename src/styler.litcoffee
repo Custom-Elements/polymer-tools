@@ -13,7 +13,7 @@ tools in the browser will always show you what you are looking for.
       waterfall = []
       $(constants.STYLESHEET).each ->
         el = $(this)
-        href = el.attr('href')
+        href = el.attr('href').split('?')[0]
         cssOptions =
          filename: href
          paths: [
