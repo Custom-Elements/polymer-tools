@@ -9,11 +9,18 @@ tools in the browser will always show you what you are looking for.
     mime = require 'mime'
     constants = require './constants.litcoffee'
 
+'?' Is an illegal filesystem charachter so we're going to take the
+stuff before it. '#' is not supported either!
+
+    urlPathScrub = (url) ->
+      url.split('?')?[0]?.split('#')?[0]
+
     module.exports = ($, options, callback) ->
       waterfall = []
       $(constants.STYLESHEET).each ->
         el = $(this)
-        href = el.attr('href').split('?')[0]
+        console.log el.attr('href')
+        href = urlPathScrub el.attr('href')
         cssOptions =
          filename: href
          paths: [
@@ -39,6 +46,7 @@ tools in the browser will always show you what you are looking for.
               replacements = []
               (content.match(constants.URL) or []).forEach (dataUrl) ->
                 url = dataUrl.replace(/["']/g, "").slice(4, -1)
+                url = urlPathScrub url
                 url = path.join path.dirname(href), url
                 if not options?.exclude(el, url)
                   replacements.push (callback) ->
