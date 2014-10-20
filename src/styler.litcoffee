@@ -22,11 +22,12 @@ stuff before it. '#' is not supported either!
         console.log el.attr('href')
         href = urlPathScrub el.attr('href')
         cssOptions =
-         filename: href
-         paths: [
-           path.dirname(href),
-           process.cwd()
-         ]
+          relativeUrls: true
+          filename: href
+          paths: [
+            path.dirname(href),
+            process.cwd()
+          ]
         if href and not options?.exclude(el, href)
           waterfall.push (callback) ->
             options.start "styling", href
@@ -35,16 +36,11 @@ stuff before it. '#' is not supported either!
               fs.readFile href, 'utf-8', callback
             per_href.push (content, callback) ->
               content = content.replace(/^\uFEFF/, '')
-              parser = new less.Parser cssOptions
-              parser.parse content, callback
-            per_href.push (content, callback) ->
-              try
-                callback undefined, content.toCSS cssOptions
-              catch e
-                callback e
+              less.render content, cssOptions, callback
             per_href.push (content, callback) ->
               replacements = []
-              (content.match(constants.URL) or []).forEach (dataUrl) ->
+              css = content.css
+              (css.match(constants.URL) or []).forEach (dataUrl) ->
                 url = dataUrl.replace(/["']/g, "").slice(4, -1)
                 url = urlPathScrub url
                 url = path.join path.dirname(href), url
@@ -52,12 +48,12 @@ stuff before it. '#' is not supported either!
                   replacements.push (callback) ->
                     fs.readFile url, 'base64', callback
                   replacements.push (font, callback) ->
-                    content = content.replace dataUrl, "url(data:#{mime.lookup(url)};charset=utf-8;base64,#{font})"
+                    css = css.replace dataUrl, "url(data:#{mime.lookup(url)};charset=utf-8;base64,#{font})"
                     callback()
               async.waterfall replacements, (e) ->
-                callback e, content
-            per_href.push (content, callback) ->
-              el.replaceWith("<style>#{content}</style>")
+                callback e, css
+            per_href.push (css, callback) ->
+              el.replaceWith("<style>#{css}</style>")
               options.stop "styling", href
               callback()
             async.waterfall per_href, callback
