@@ -45,6 +45,6 @@ Important to not browserify platform or polymer itself.
        else
          b = browserify()
          b.add src
-         b.transform 'coffeeify'
+         b.transform require('coffeeify')
          b.transform requireString '.svg'
-         b.bundle {}, callback
+         b.bundle callback

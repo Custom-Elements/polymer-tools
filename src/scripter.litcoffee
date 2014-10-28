@@ -19,7 +19,7 @@ script tags in the combined imported document and browserify them.
            scriptcompiler options, src, callback
          waterfall.push (content, callback) ->
            options.stop "scripting", src
-           content = content.replace(/<\x2fscript([>\/\t\n\f\r ])/gi, "<\\/script$1")
+           content = content.toString().replace(/<\x2fscript([>\/\t\n\f\r ])/gi, "<\\/script$1")
            if options['--compress']
              ast = uglify.parse(content)
              content = ast.print_to_string
