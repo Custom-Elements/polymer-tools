@@ -41,10 +41,10 @@ stuff before it. '#' is not supported either!
               replacements = []
               css = content.css
               (css.match(constants.URL) or []).forEach (dataUrl) ->
-                url = dataUrl.replace(/["']/g, "").slice(4, -1)
+                url = dataUrl.replace(/["'\n]/g, "").slice(4, -1)
                 url = urlPathScrub url
                 url = path.join path.dirname(href), url
-                if not options?.exclude(el, url) and not url.slice(0, 4) is 'data'
+                if not options?.exclude(el, url) and not (url.slice(0, 4) is 'data')
                   replacements.push (callback) ->
                     fs.readFile url, 'base64', callback
                   replacements.push (font, callback) ->

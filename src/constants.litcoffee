@@ -7,7 +7,7 @@
       ELEMENTS: 'polymer-element:not([assetpath])'
       ABS_URL: /(^data:)|(^http[s]?:)|(^\/)/
       IMPORTS: 'link[rel="import"][href]'
-      URL: /url\([^)]*\)/g
+      URL: /url\([^)]*\)/mg
       URL_ATTR: URL_ATTR
       URL_ATTR_SEL: '[' + URL_ATTR.join('],[') + ']'
       URL_TEMPLATE: '{{.*}}'
