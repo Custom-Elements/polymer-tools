@@ -40,10 +40,13 @@ stuff before it. '#' is not supported either!
             per_href.push (content, callback) ->
               replacements = []
               css = content.css
+              if href.indexOf('font-awesome.less') > 0
+                console.log css
               (css.match(constants.URL) or []).forEach (dataUrl) ->
                 url = dataUrl.replace(/["'\n]/g, "").slice(4, -1)
                 url = urlPathScrub url
                 url = path.join path.dirname(href), url
+                console.log "inline font file #{url}".yellow
                 if not options?.exclude(el, url) and not (url.slice(0, 4) is 'data')
                   replacements.push (callback) ->
                     fs.readFile url, 'base64', callback

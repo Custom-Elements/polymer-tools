@@ -17,8 +17,6 @@ handling when we are making chrome extensions.
           fs.readFile src, 'utf8', callback
         waterfall.push (content, callback) ->
           config = JSON.parse(content)
-          if config?.version
-            console.log "looks like a chrome extension".blue
           if config?.content_scripts
             console.log "looks like a chrome content script".blue
             scriptswaterfall = []
