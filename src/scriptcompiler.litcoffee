@@ -31,9 +31,10 @@ into a string constant in source.
           through()
 
 Important to not browserify platform or polymer itself.
+**NOTE**: Can use `nobrowserify` to exclude certain scripts if you want to import them the old fashioned way.
 
     module.exports = (options, src, callback) ->
-       if path.basename(src) is 'platform.js' or path.basename(src) is 'polymer.js'
+       if path.basename(src) is 'platform.js' or path.basename(src) is 'polymer.js' or (path.basename(src).indexOf('nobrowserify') > -1)
          if path.basename(src) is 'polymer.js'
            if options.importedPolymerJS
              console.log "duplicate polymer.js supressed".yellow
