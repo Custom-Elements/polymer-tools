@@ -1,3 +1,5 @@
+#polymer-build
+
 ```
 Usage:
   polymer-build [options] watch <root_directory> <source_directory> <build_directory> [<only_these>...]
@@ -13,3 +15,9 @@ Usage:
   --compress         Make the output smaller by removing comments and source maps.
   --quiet            SSSHHH! Less logging.
 ```
+
+##Options
+
+###nobrowserify
+
+Name a file like `jquery.nobrowserify.js` to get a non browserified version macro expanded in your *.html.
