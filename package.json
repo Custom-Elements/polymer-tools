@@ -26,6 +26,7 @@
   },
   "homepage": "https://github.com/Custom-Elements/polymer-tools",
   "dependencies": {
+    "module-deps": "git://github.com/substack/module-deps#3a413f651c6c623fcfc0b8bf15fcd6fcc65a0387",
     "async": "~0.9.0",
     "browserify": "^6.2.0",
     "cheerio": "^0.17.0",
