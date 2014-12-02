@@ -30,7 +30,7 @@ Compile the referenced script by extending the waterfall.
                 scriptsrc = path.join path.dirname(src), scriptname
                 scriptbuild = path.join path.dirname(src), scriptnamejs
                 scriptswaterfall.push (callback) ->
-                  callback undefined, args, scriptsrc
+                  callback undefined, args, {}, scriptsrc
                 scriptswaterfall.push scriptcompiler
                 scriptswaterfall.push writer(args, scriptbuild)
 
