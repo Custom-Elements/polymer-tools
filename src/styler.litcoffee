@@ -46,8 +46,10 @@ stuff before it. '#' is not supported either!
                 url = dataUrl.replace(/["'\n]/g, "").slice(4, -1)
                 url = urlPathScrub url
 
-                if not (url.slice(0, 4) is 'data')
-                  url = path.join path.dirname(href), url
+                if (url.slice(0, 4) is 'data')
+                  return
+
+                url = path.join path.dirname(href), url
 
                 console.log "inline font file #{url}".yellow
                 if not options?.exclude(el, url)
