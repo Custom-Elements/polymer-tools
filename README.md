@@ -20,7 +20,10 @@ Usage:
 
 ###nobrowserify
 
-Use the attribute `nobrowserify` on scripts to get a non browserified version macro expanded in your *.html.
+Use the attribute `nobrowserify` on link import and scripts to get the raw javascript, no browserify. This is
+transitive, or really scoped, if you apply it to a link import, it counts for all the script tags inside. 
+
+TLDR: use this on elements you get from the Polymer Core team.
 
 ###skip-vulcanization
 
