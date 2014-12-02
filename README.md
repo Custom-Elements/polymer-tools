@@ -20,4 +20,8 @@ Usage:
 
 ###nobrowserify
 
-Name a file like `jquery.nobrowserify.js` to get a non browserified version macro expanded in your *.html.
+Use the attribute `nobrowserify` on scripts to get a non browserified version macro expanded in your *.html.
+
+###skip-vulcanization
+
+Use the attribute `skip-vulcanization` on imports to not vulcanize them.
