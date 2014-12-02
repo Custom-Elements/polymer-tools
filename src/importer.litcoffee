@@ -78,6 +78,9 @@ from here on the only thing possible are urls.
                 else
                   options.importedPolymer = true
               processImports filename, options, (e, $) ->
+                if el.attr('nobrowserify')?
+                  $('script').each ->
+                    $(this).attr('nobrowserify', true)
                 el.replaceWith $.html() unless e
                 callback(e)
         async.waterfall nested_waterfall, (e) ->

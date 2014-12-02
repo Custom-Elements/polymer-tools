@@ -16,7 +16,7 @@ script tags in the combined imported document and browserify them.
        if src and not options?.exclude(el, src)
          waterfall.push (callback) ->
            options.start "scripting", src
-           scriptcompiler options, src, callback
+           scriptcompiler options, $(el), src, callback
          waterfall.push (content, callback) ->
            options.stop "scripting", src
            content = content.toString().replace(/<\x2fscript([>\/\t\n\f\r ])/gi, "<\\/script$1")

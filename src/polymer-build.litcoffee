@@ -87,7 +87,7 @@ Whip through all the source files and build them as needed.
           if path.extname(file) is '.js'
             targetfile = path.join args.build_directory, file.replace(args.source_directory, '')
             waterfall.push (callback) ->
-              scriptcompiler args, file, callback
+              scriptcompiler args, {}, file, callback
             waterfall.push writer(args, file)
           if path.extname(file) is '.yaml'
             targetfile = path.join args.build_directory, file.replace(args.source_directory, '')
