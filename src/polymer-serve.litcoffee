@@ -29,6 +29,7 @@ server, which will be transpiled into polymer ready browser custom elements.
     port = process.env['PORT'] or 10000
     console.log "Polymer Build Server".blue, args.root_directory
     app = express()
+    app.use require('./polymer-middleware.litcoffee')(args, args.root_directory)
     app.use require('./style-middleware.litcoffee')(args, args.root_directory)
     app.use require('./script-middleware.litcoffee')(args, args.root_directory)
     app.use express.static(args.root_directory)
