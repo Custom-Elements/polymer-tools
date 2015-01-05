@@ -1,20 +1,19 @@
 {
-  "name": "polymer-build",
-  "version": "0.0.27",
+  "name": "polymer-serve",
+  "version": "0.0.28",
   "description": "Build tools to make polymer element creation easy!",
   "default": "index.js",
   "bin": {
-    "polymer-build": "bin/polymer-build"
+    "polymer-serve": "bin/polymer-serve"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/Custom-Elements/polymer-tools.git"
+    "url": "git://github.com/Custom-Elements/polymer-serve.git"
   },
   "keywords": [
     "polymer",
     "coffeescript",
     "less",
-    "vulcanize",
     "build",
     "watch",
     "livereload"
@@ -22,32 +21,24 @@
   "author": "Will Ballard <wballard@mailframe.net>",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Custom-Elements/polymer-tools/issues"
+    "url": "https://github.com/Custom-Elements/polymer-serve/issues"
   },
-  "homepage": "https://github.com/Custom-Elements/polymer-tools",
+  "homepage": "https://github.com/Custom-Elements/polymer-serve",
   "dependencies": {
-    "async": "~0.9.0",
-    "browserify": "6.2.0",
-    "cheerio": "^0.17.0",
-    "chokidar": "~0.8.2",
+    "bluebird": "^2.5.3",
+    "browserify": "8.0.3",
     "clean-css": "^2.2.3",
     "coffee-script": "^1.8.0",
     "coffeeify": "^1.0.0",
     "colors": "~0.6.2",
-    "custom-event-server": "^0.0.0",
     "docopt": "~0.4.0",
     "express": "~4.4.1",
     "indent-string": "^0.1.3",
-    "less": "2.0.0-b1",
+    "less": "2.2.0",
     "livereload": "^0.3.4",
     "lodash": "^2.4.1",
-    "mime": "^1.2.11",
-    "mkdirp": "~0.5.0",
-    "module-deps": "git://github.com/substack/module-deps#3a413f651c6c623fcfc0b8bf15fcd6fcc65a0387",
     "parseurl": "^1.0.1",
-    "polymer": "git://github.com/custom-elements/polymer",
     "through": "^2.3.4",
-    "uglify-js": "^2.4.14",
     "wrench": "^1.5.8"
   }
 }
