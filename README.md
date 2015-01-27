@@ -1,3 +1,10 @@
+#DEPRECATED
+**DO NOT USE**
+
+Take a look at `polymer-serve` instead.  Polymer-tools is not being maintained.
+
+https://github.com/Custom-Elements/polymer-serve
+
 #polymer-build
 
 ```
