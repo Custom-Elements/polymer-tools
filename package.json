@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/Custom-Elements/polymer-tools.git"
+    "url": "https://github.com/Custom-Elements/polymer-tools.git"
   },
   "keywords": [
     "polymer",
@@ -43,9 +43,9 @@
     "lodash": "^2.4.1",
     "mime": "^1.2.11",
     "mkdirp": "~0.5.0",
-    "module-deps": "git://github.com/substack/module-deps#3a413f651c6c623fcfc0b8bf15fcd6fcc65a0387",
+    "module-deps": "git+https://github.com/substack/module-deps#3a413f651c6c623fcfc0b8bf15fcd6fcc65a0387",
     "parseurl": "^1.0.1",
-    "polymer": "git://github.com/custom-elements/polymer",
+    "polymer": "git+https://github.com/custom-elements/polymer",
     "through": "^2.3.4",
     "uglify-js": "^2.4.14",
     "wrench": "^1.5.8"
